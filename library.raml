@@ -1,0 +1,10 @@
+#%RAML 1.0 Library
+
+types:
+  employeeType : !include data-type/employees-type.raml
+
+traits:
+  commonResponses: !include trait.raml
+
+securitySchemes:
+  basicAuth: !include exchange_modules/org.mule.examples/basic-auth-securityscheme/1.0.0/basic-auth-securityscheme.raml

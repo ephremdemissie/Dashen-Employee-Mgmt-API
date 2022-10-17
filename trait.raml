@@ -1,0 +1,27 @@
+#%RAML 1.0 Trait
+
+responses:
+  400:
+    description: Client Exception 
+    body:
+      application/json:
+        example:
+          message: Bad request  
+  401:
+    description: Client Exception 
+    body:
+      application/json:
+        example:
+          message: Un Authorized Access 
+  404:
+    description: Client Error
+    body:
+      application/json:
+        example:
+          message: Resource Not found  
+  500:
+    description: System Exception 
+    body:
+      application/json:
+        example:
+          message: Internal server error
