@@ -1,0 +1,104 @@
+#%RAML 1.0
+title: Dashen Bank Employee Management System API
+#baseUri: https://dashenbanksc.com/
+description: This employee management api is REST API used to operate on hr database and employees table. It provides different services,...
+mediaType:
+  - application/json
+version: 1.0.0
+protocols:
+  - HTTP
+
+uses:
+  lib : library.raml
+
+# to ways of making effective our securitySchema
+# 1. securedBy: [basic]
+# 2. securedBy:
+#    - basic
+
+/employees:
+  securedBy:
+    - lib.basicAuth
+  get:
+    displayName: fetch all employees
+    description: fetch all employees record at dashen bank or based on user search by deparment
+    queryParameters:
+      department:
+        example: IT
+        type: string
+        required: false
+        enum:
+          - HRM
+          - IT
+          - FINANCE
+          - MARKETING
+        minLength: 2
+    
+    responses:
+      200:
+        body:
+          application/json:
+            type: lib.employeeType[]
+            example: !include examples/getEmployees.raml
+    is:
+      - lib.commonResponses
+  post:
+    description: create or add a new employee record
+    displayName: create employees
+    body:
+      application/json:
+        type: lib.employeeType[]
+        example: !include /examples/postEmployees.raml
+    responses:
+      201:
+        description: Created
+        body:
+          application/json:
+            example: 
+              message: "employees record are added (but not really)" 
+    is:
+      - lib.commonResponses  
+# We URI Parameter when we need action only on a single record or nested resources by a unique identifier. e.g ID
+    
+/employees/{ID}:
+  get:
+    description: used to retreive a specific employee record by ID
+    displayName: get a specific record
+      
+    responses:
+      200: 
+        description: OK
+        body:
+          application/json:
+            type: lib.employeeType
+            example: !include examples/getEmployeeByID.raml
+    is:
+      - lib.commonResponses        
+  put:
+    description: used to modify a specific employee record by ID
+    displayName: update a specific record
+    body:
+      application/json:
+        type: lib.employeeType
+        example: !include /examples/putEmployeeByID.raml
+    
+    responses:
+      200:
+        body:
+          application/json:
+            example: 
+              message : Record is modified (but not really) !
+    is:
+      - lib.commonResponses 
+  delete:
+    securedBy: [lib.basicAuth]
+    description: used to remove a specific employee record by ID
+    displayName: delete a specific record
+    responses:
+      200:
+        body:
+          application/json:
+            example: 
+              message : Record is deleted (but not really) !
+    is:
+      - lib.commonResponses:
